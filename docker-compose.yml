@@ -1,0 +1,24 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.8
+    container_name: jobs-clickhouse
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    environment:
+      CLICKHOUSE_USER: ${CH_USER:-dash}
+      CLICKHOUSE_PASSWORD: ${CH_PASSWORD:-dash}
+    volumes:
+      # дані бази зберігаються між перезапусками
+      - ch_data:/var/lib/clickhouse
+      # наші CSV видно всередині контейнера через file()
+      - ./data/raw:/var/lib/clickhouse/user_files/raw:ro
+      # наші SQL-скрипти
+      - ./sql:/sql:ro
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+volumes:
+  ch_data:
