@@ -20,5 +20,22 @@ services:
         soft: 262144
         hard: 262144
 
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: jobs-backend
+    ports:
+      - "8000:8000"
+    environment:
+      # усередині docker-мережі база доступна за назвою сервісу
+      CH_HOST: clickhouse
+      CH_PORT: 8123
+      CH_USER: ${CH_USER:-dash}
+      CH_PASSWORD: ${CH_PASSWORD:-dash}
+      CH_DATABASE: jobs
+    depends_on:
+      - clickhouse
+
 volumes:
   ch_data:
