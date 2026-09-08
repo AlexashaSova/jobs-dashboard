@@ -23,6 +23,9 @@ class Settings(BaseSettings):
     # де лежать SQL-файли віджетів
     queries_dir: Path = ROOT_DIR / "sql" / "queries"
 
+    # зібраний фронтенд (npm run build); якщо папка є — FastAPI віддає її сам
+    frontend_dist: Path = ROOT_DIR / "frontend" / "dist"
+
     # скільки секунд тримати результат запиту в кеші
     cache_ttl_seconds: int = 300
 

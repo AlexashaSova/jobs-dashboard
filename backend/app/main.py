@@ -9,6 +9,7 @@ import json
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from .cache import TTLCache
 from .config import settings
@@ -106,3 +107,10 @@ def widget_data(name: str, filters: Filters = Depends(filters_from_query)):
         "filters": filters,
         "rows": rows,
     }
+
+
+# Production-режим: якщо фронтенд зібрано (frontend/dist існує),
+# віддаємо його з того ж сервера. Монтуємо в кінці, після всіх /api/...,
+# інакше "/" перехопив би API-маршрути.
+if settings.frontend_dist.is_dir():
+    app.mount("/", StaticFiles(directory=settings.frontend_dist, html=True), name="frontend")

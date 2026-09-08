@@ -1,31 +1,19 @@
 # дані — великі, їх скачують скриптом
-
 data/
 
-
 # секрети
-
 .env
 
-
 # Python
-
 __pycache__/
-
 *.pyc
-
 .venv/
-
+.pytest_cache/
 
 # Node / фронт
-
 node_modules/
-
 frontend/dist/
 
-
 # ОС/редактор
-
 .DS_Store
-
 .vscode/

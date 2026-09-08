@@ -17,6 +17,10 @@ def get_client() -> Client:
         username=settings.ch_user,
         password=settings.ch_password,
         database=settings.ch_database,
+        # Дашборд запитує 25 віджетів одночасно. Без цієї опції клієнт
+        # відкриває одну "сесію", а ClickHouse забороняє паралельні
+        # запити в межах сесії. Сесія нам не потрібна — вимикаємо.
+        autogenerate_session_id=False,
     )
 
 
